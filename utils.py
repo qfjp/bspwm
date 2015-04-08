@@ -4,12 +4,14 @@ Contains workspace names for bspwm
 """
 import subprocess
 
+
 def get_workspcs():
     """
     Returns a list of workspace names
     """
     return ["1 fire", "2 scien", "3 delg", "4 chrome", "5 game",
             "6 btc", "7 sec", "8 phone", "9 blank", "10 blank"]
+
 
 def get_monitors():
     """
@@ -21,6 +23,7 @@ def get_monitors():
     for monitor in monitor_string.split():
         monitor_list.append(monitor)
     return monitor_list
+
 
 def get_monitor(target_desktop):
     """

@@ -5,6 +5,7 @@ Main bspwm config file
 import subprocess
 import utils
 import panel_settings
+import rules
 
 
 class BspwmConf():
@@ -77,3 +78,4 @@ class BspwmConf():
 
 CONF = BspwmConf()
 CONF.execute()
+rules.reset_rules()

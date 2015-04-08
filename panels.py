@@ -7,6 +7,7 @@ import threading
 
 import panel_settings
 import parse_windows
+import utils
 
 try:
     os.mkfifo(panel_settings.FIFO)
@@ -116,3 +117,34 @@ def activate_right_panel():
     """
     panel_thread = threading.Thread(target=right_panel_target)
     panel_thread.start()
+
+
+def toggle_visible():
+    """
+    Toggle the visibility of the active panel
+    """
+    try:
+        tog_file = open(panel_settings.TOG_FILE, 'r')
+    except FileNotFoundError:
+        tog_file = open(panel_settings.TOG_FILE, 'w')
+        tog_file.write('True')
+        tog_file.close()
+
+    tog_file = open(panel_settings.TOG_FILE, 'r')
+
+    state = tog_file.readlines()[0]
+    tog_file.close()
+    new_height = 0
+    new_state = 'False'
+    if state == 'True':
+        pass
+    elif state == 'False':
+        new_height = panel_settings.HEIGHT
+        new_state = 'True'
+
+    cmd = ['bspc', 'config', '-m', utils.get_monitors()[0],
+           'top_padding', '{}'.format(new_height)]
+    tog_file = open(panel_settings.TOG_FILE, 'w')
+    tog_file.write(new_state)
+    tog_file.close()
+    subprocess.call(cmd)

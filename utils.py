@@ -81,6 +81,6 @@ def get_x_resolution():
             primary_monitor_res = line.strip().split()[0]
             break
     x_res = int(primary_monitor_res.split('x')[0])
-    print(x_res)
+    return x_res
 
-get_x_resolution()
+print(get_x_resolution())

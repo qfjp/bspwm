@@ -2,7 +2,6 @@
 """
 Set bspwm rules (e.g. which window classes should float)
 """
-import os
 import subprocess
 import utils
 

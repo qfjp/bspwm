@@ -5,10 +5,6 @@ Parses the window string from bspwm fifo
 import sys
 import subprocess
 
-FOCUSED_WORKSPACE = subprocess.check_output(['bspc', 'query', '-d',
-                                             'focused', '-D'])
-FOCUSED_WORKSPACE = FOCUSED_WORKSPACE.decode('utf-8')
-FOCUSED_WORKSPACE = FOCUSED_WORKSPACE.strip()
 
 COLORS = {"ltest_bg": '#d0d0d0',
           "ltest_fg": '#303030',
@@ -35,7 +31,7 @@ def get_sort_key(raw_key):
     return sort_key
 
 
-def decorate_field(field, flag, next_flag=None):
+def decorate_field(focused, field, flag, next_flag=None):
     """
     Adds colors and decorators to the fields, as appropriate
 
@@ -51,9 +47,8 @@ def decorate_field(field, flag, next_flag=None):
         # Visible workspaces
         pre_bg = COLORS["blue_fade_bg"]
         pre_fg = COLORS["blue_fade_fg"]
-        sys.stderr.write("%s %s\n" % (field, FOCUSED_WORKSPACE))
-        if field == FOCUSED_WORKSPACE:
-            sys.stderr.write("HEY")
+        # sys.stderr.write("%s %s\n" % (field, FOCUSED_WORKSPACE))
+        if field == focused:
             pre_bg = COLORS["blue_bg"]
             pre_fg = COLORS["blue_fg"]
 
@@ -128,6 +123,18 @@ def main():
     except IndexError:
         print_usage()
 
+    print(parse(workspace_string))
+
+
+def parse(workspace_string):
+    """
+    parse a workspace string for bspwm
+    """
+    focused_workspace = subprocess.check_output(['bspc', 'query', '-d',
+                                                 'focused', '-D'])
+    focused_workspace = focused_workspace.decode('utf-8')
+    focused_workspace = focused_workspace.strip()
+
     occupied_workspaces = []
 
     layout = ""
@@ -145,7 +152,6 @@ def main():
         elif flag.lower() in "f" and flag.isupper():
             occupied_workspaces.append((field, flag))
 
-    # print(FOCUSED_WORKSPACE)
     occupied_workspaces = sorted(occupied_workspaces, key=get_sort_key)
 
     output = "^fg(" + COLORS["ltest_fg"] + ")" + \
@@ -157,10 +163,10 @@ def main():
             nxt_flag = nxt_tuple[1]
         except IndexError:
             nxt_flag = None
-        output += decorate_field(workspace_tuple[0], workspace_tuple[1],
-                                 nxt_flag)
-    output += decorate_field(layout, 'l')
+        output += decorate_field(focused_workspace, workspace_tuple[0],
+                                 workspace_tuple[1], next_flag=nxt_flag)
+    output += decorate_field(focused_workspace, layout, 'l')
 
-    print(output)
+    return output
 
-main()
+# main()

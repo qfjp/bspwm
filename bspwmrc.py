@@ -16,8 +16,8 @@ class BspwmConf():
     """
 
     def __init__(self):
-        self.panel_height = panel_settings.PANEL_HEIGHT
-        self.panel_fifo = panel_settings.PANEL_FIFO
+        self.panel_height = panel_settings.HEIGHT
+        self.panel_fifo = panel_settings.FIFO
 
         self.settings = {}
         self.settings['border_width'] = '2'
@@ -26,7 +26,7 @@ class BspwmConf():
         self.settings['borderless_monocle'] = 'true'
         self.settings['gapless_monocle'] = 'true'
         self.settings['focused_border_color'] = '#ff950e'
-        self.top_padding = panel_settings.PANEL_HEIGHT
+        self.top_padding = panel_settings.HEIGHT
 
         self.monitors = utils.get_monitors()
         self.workspcs = utils.get_workspcs()
@@ -79,8 +79,9 @@ class BspwmConf():
             assert return_code == 0
 
         panels.activate_writer()
-        # panels.activate_reader()
+        panels.activate_left_panel()
+        panels.activate_right_panel()
+        rules.reset_rules()
 
 CONF = BspwmConf()
 CONF.execute()
-rules.reset_rules()

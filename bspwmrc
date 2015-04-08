@@ -1,0 +1,21 @@
+#! /bin/sh
+# https://wiki.archlinux.org/index.php/Bspwm
+
+python $HOME/.config/bspwm/bspwmrc.py 2> /tmp/bspwm_log
+
+# TODO: Move the rest into a python script
+
+. $HOME/.config/bspwm/panel_settings
+
+mkfifo $PANEL_FIFO
+
+bspc control --subscribe > "$PANEL_FIFO" &
+xtitle -sf "T%s"         > "$PANEL_FIFO" &
+
+bspc config top_padding $PANEL_HEIGHT
+
+$HOME/.config/bspwm/left_panel.sh &
+$HOME/.config/bspwm/right_panel.sh &
+
+compton -G --shadow-exclude-reg 1590x18+5+0 --config \
+    ~/.config/compton/compton.conf &

@@ -1,0 +1,90 @@
+#!/usr/bin/env python2
+"""
+Implement desktop switching in bspwm to be like xMonad (shared desktops
+over multiple monitors)
+"""
+import sys
+import subprocess
+import utils
+import rules
+
+PROG_NAME = sys.argv[0]
+
+
+def focus_desktop(desktop):
+    """
+    Bring the given desktop selector into focus
+
+    Params:
+      desktop (str): A bspwm desktop selector
+    """
+    subprocess.call(["bspc", "desktop", "-f", desktop])
+
+
+def move_desktop_to_monitor(desktop, monitor):
+    """
+    Move a given desktop to a given monitor
+
+    Params:
+      desktop (str): A bspwm desktop selector
+      monitor (str): A bspwm monitor selector
+    """
+    subprocess.call(["bspc", "desktop", desktop, "-m", monitor])
+
+
+def print_usage(prog_name):
+    """
+    A method to print the usage of this script
+
+    Params:
+      prog_name (str): The name of the program
+    """
+    program = prog_name.split("/")
+    program = program[len(program) - 1]
+    sys.stderr.write("USAGE: %s <target_desktop>\n" % program)
+    sys.exit()
+
+
+def swap_desktops(desktop1, desktop2):
+    """
+    Swap the given desktops
+
+    Params:
+      desktop1 (str): a bspwm desktop selector
+      desktop2 (str): a bspwm desktop selector
+    """
+    subprocess.call(["bspc", "desktop", desktop1, "-s", desktop2])
+
+
+def main(target_desktop):
+    """
+    The main entry point for the script
+    """
+    active_monitor = subprocess.check_output(["bspc", "query", "-m", "focused", "-M"])
+    active_desktop = subprocess.check_output(["bspc", "query", "-d", "focused", "-D"])
+    active_monitor = active_monitor.strip()
+    active_desktop = active_desktop.strip()
+
+    # Find the target monitor
+    target_monitor = utils.get_monitor(target_desktop)
+
+    # If the target monitor is the same as active monitor,
+    # we must move the target desktop to a different monitor
+    # before the swap
+    if target_monitor == active_monitor:
+        focus_desktop(target_desktop)
+    else:
+        swap_desktops(target_desktop, active_desktop)
+    rules.reset_rules()
+
+
+try:
+    TARGET_DESKTOP = sys.argv[1]
+except IndexError:
+    print_usage(PROG_NAME)
+
+if not TARGET_DESKTOP in utils.get_current_desktops():
+    print_usage(PROG_NAME)
+
+main(TARGET_DESKTOP)
+

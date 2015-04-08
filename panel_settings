@@ -1,0 +1,3 @@
+#!/bin/sh
+export PANEL_HEIGHT=18
+export PANEL_FIFO="/tmp/panel-fifo"

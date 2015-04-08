@@ -75,6 +75,8 @@ def main(target_desktop_index, move=False):
                                               "focused", "-M"])
     active_desktop = subprocess.check_output(["bspc", "query", "-d",
                                               "focused", "-D"])
+    active_monitor = active_monitor.decode('utf-8')
+    active_desktop = active_desktop.decode('utf-8')
     active_monitor = active_monitor.strip()
     active_desktop = active_desktop.strip()
 
@@ -94,23 +96,3 @@ def main(target_desktop_index, move=False):
     else:
         swap_desktops(target_desktop, active_desktop)
     rules.reset_rules()
-
-
-try:
-    TARGET_DESKTOP_INDEX = int(sys.argv[1])
-except IndexError:
-    print_usage(PROG_NAME)
-except ValueError:
-    print_usage(PROG_NAME)
-
-try:
-    MOVE = sys.argv[2]
-    MOVE = True
-except IndexError:
-    MOVE = False
-
-if TARGET_DESKTOP_INDEX > len(utils.get_workspcs()) or \
-   TARGET_DESKTOP_INDEX < 0:
-    print_usage(PROG_NAME)
-
-main(TARGET_DESKTOP_INDEX, move=MOVE)

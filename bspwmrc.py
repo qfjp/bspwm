@@ -3,10 +3,12 @@
 Main bspwm config file
 """
 import subprocess
+import sys
 
 import panel_settings
 import panels
 import rules
+import switch_desktop
 import utils
 
 
@@ -83,5 +85,19 @@ class BspwmConf():
         panels.activate_right_panel()
         rules.reset_rules()
 
-CONF = BspwmConf()
-CONF.execute()
+try:
+    FIRST_ARG = sys.argv[1]
+except IndexError:
+    CONF = BspwmConf()
+    CONF.execute()
+    sys.exit()
+
+if FIRST_ARG == 'switch':
+    # switch to desktop named in second argument
+    INDEX = int(sys.argv[2])
+    switch_desktop.main(INDEX)
+elif FIRST_ARG == 'move':
+    INDEX = int(sys.argv[2])
+    switch_desktop.main(INDEX, move=True)
+elif FIRST_ARG == 'panel':
+    panels.toggle_visible()

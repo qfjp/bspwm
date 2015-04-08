@@ -23,7 +23,7 @@ class BspwmConf():
         self.settings['borderless_monocle'] = 'true'
         self.settings['gapless_monocle'] = 'true'
         self.settings['focused_border_color'] = '#ff950e'
-        self.settings['top_padding'] = panel_settings.PANEL_HEIGHT
+        self.top_padding = panel_settings.PANEL_HEIGHT
 
         self.monitors = utils.get_monitors()
         self.workspcs = utils.get_workspcs()
@@ -57,6 +57,10 @@ class BspwmConf():
         cmds = [['bspc', 'config', '{}'.format(key),
                  '{}'.format(settings[key])]
                 for key in settings]
+
+        panel_height_cmd = ['bspc', 'config', '-m', self.monitors[0],
+                            'top_padding', self.top_padding]
+        cmds.append(panel_height_cmd)
         return cmds
 
     def execute(self):

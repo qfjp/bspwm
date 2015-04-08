@@ -12,8 +12,6 @@ mkfifo $PANEL_FIFO
 bspc control --subscribe > "$PANEL_FIFO" &
 xtitle -sf "T%s"         > "$PANEL_FIFO" &
 
-bspc config top_padding $PANEL_HEIGHT
-
 $HOME/.config/bspwm/left_panel.sh &
 $HOME/.config/bspwm/right_panel.sh &
 

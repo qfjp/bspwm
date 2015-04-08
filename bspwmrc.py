@@ -6,6 +6,7 @@ import subprocess
 import utils
 import panel_settings
 
+
 class BspwmConf():
     """
     A class that generates a bspwm config
@@ -53,7 +54,8 @@ class BspwmConf():
         Various config setting cmds
         """
         settings = self.settings
-        cmds = [['bspc', 'config', '{}'.format(key), '{}'.format(settings[key])]
+        cmds = [['bspc', 'config', '{}'.format(key),
+                 '{}'.format(settings[key])]
                 for key in settings]
         return cmds
 

@@ -17,7 +17,8 @@ BSPACE8 = ["Skype"]
 BSPACE9 = []
 BSPACE0 = []
 
-FLOATS = ["mplayer2", "mpv", "Steam", "Skype", "Tk", "Vlc", "Eclipse", "Java", "GraphDisplay"]
+FLOATS = ["mplayer2", "mpv", "Steam", "Skype", "Tk", "Vlc", "Eclipse",
+          "Java", "GraphDisplay"]
 
 
 def set_float_rule(class_g):
@@ -54,7 +55,8 @@ def set_move_rule(lst, desktop):
         d_index = utils.get_current_desktops().index(desktop) + 1
 
         # Add the new rules
-        subprocess.call(["bspc", "rule", "-a", class_g, "desktop=^{}".format(d_index)])
+        subprocess.call(["bspc", "rule", "-a", class_g,
+                         "desktop=^{}".format(d_index)])
         if desktop in FLOATS:
             set_float_rule(class_g)
 
@@ -65,13 +67,13 @@ def reset_rules():
     """
     for class_g in FLOATS:
         set_float_rule(class_g)
-    set_move_rule(BSPACE1, os.environ['BSPACE1'])
-    set_move_rule(BSPACE2, os.environ['BSPACE2'])
-    set_move_rule(BSPACE3, os.environ['BSPACE3'])
-    set_move_rule(BSPACE4, os.environ['BSPACE4'])
-    set_move_rule(BSPACE5, os.environ['BSPACE5'])
-    set_move_rule(BSPACE6, os.environ['BSPACE6'])
-    set_move_rule(BSPACE7, os.environ['BSPACE7'])
-    set_move_rule(BSPACE8, os.environ['BSPACE8'])
-    set_move_rule(BSPACE9, os.environ['BSPACE9'])
-    set_move_rule(BSPACE0, os.environ['BSPACE0'])
+    set_move_rule(BSPACE1, utils.get_workspcs()[0])
+    set_move_rule(BSPACE2, utils.get_workspcs()[1])
+    set_move_rule(BSPACE3, utils.get_workspcs()[2])
+    set_move_rule(BSPACE4, utils.get_workspcs()[3])
+    set_move_rule(BSPACE5, utils.get_workspcs()[4])
+    set_move_rule(BSPACE6, utils.get_workspcs()[5])
+    set_move_rule(BSPACE7, utils.get_workspcs()[6])
+    set_move_rule(BSPACE8, utils.get_workspcs()[7])
+    set_move_rule(BSPACE9, utils.get_workspcs()[8])
+    set_move_rule(BSPACE0, utils.get_workspcs()[9])

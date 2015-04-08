@@ -5,27 +5,23 @@ Parses the window string from bspwm fifo
 import sys
 import subprocess
 
-FOCUSED_WORKSPACE = subprocess.check_output(["bspc", "query", "-d", "focused", "-D"])
+FOCUSED_WORKSPACE = subprocess.check_output(['bspc', 'query', '-d',
+                                             'focused', '-D'])
 FOCUSED_WORKSPACE = FOCUSED_WORKSPACE.decode('utf-8')
 FOCUSED_WORKSPACE = FOCUSED_WORKSPACE.strip()
 
-COLORS = {"ltest_bg"      : '#d0d0d0',
-          "ltest_fg"      : '#303030',
-          "lter_bg"       : '#585858',
-          "lter_fg"       : '#303030',
-          "red_bg"        : '#ac0000',
-          "blue_fade_bg"  : '#00627f',
-          "blue_fade_fg"  : '#8ea5ab',
-          "blue_bg"       : '#0097af',
-          "blue_fg"       : '#d2eaf0',
-          "fg"            : '#999d9d',
-         }
+COLORS = {"ltest_bg": '#d0d0d0',
+          "ltest_fg": '#303030',
+          "lter_bg": '#585858',
+          "lter_fg": '#303030',
+          "red_bg": '#ac0000',
+          "blue_fade_bg": '#00627f',
+          "blue_fade_fg": '#8ea5ab',
+          "blue_bg": '#0097af',
+          "blue_fg": '#d2eaf0',
+          "fg": '#999d9d'}
 
 
-## Find the sort key for the workspace
-#
-# @param rawKey The tuple (workspace, flag), where workspace is a
-#               string of the form "%d %s"
 def get_sort_key(raw_key):
     """
     Find the sort key for the workspace
@@ -103,14 +99,13 @@ def decorate_field(field, flag, next_flag=None):
             pst_fg = arrow_fg
         last_char = ""
 
-    output = "^bg(" + arrow_bg + ")"           \
-           + "^fg(" + arrow_fg + ")" + " "    \
-                                               \
-           + '^bg(' + pre_bg + ')'             \
-           + '^fg(' + pre_fg + ')' + field     \
-           + ' '                               \
-           + '^bg(' + pst_bg + ')'             \
-           + '^fg(' + pst_fg + ')' + last_char
+    output = '^bg(' + arrow_bg + ')' +          \
+             '^fg(' + arrow_fg + ')' + " " +   \
+             '^bg(' + pre_bg + ')' +            \
+             '^fg(' + pre_fg + ')' + field +    \
+             ' ' +                              \
+             '^bg(' + pst_bg + ')' +            \
+             '^fg(' + pst_fg + ')' + last_char
     return output
 
 
@@ -123,6 +118,7 @@ def print_usage():
     sys.stderr.write('USAGE: {} <workspaces>\n'.format(program))
     sys.exit()
 
+
 def main():
     """
     entry point for script
@@ -131,7 +127,6 @@ def main():
         workspace_string = sys.argv[1]
     except IndexError:
         print_usage()
-
 
     occupied_workspaces = []
 
@@ -150,19 +145,20 @@ def main():
         elif flag.lower() in "f" and flag.isupper():
             occupied_workspaces.append((field, flag))
 
-    #print(FOCUSED_WORKSPACE)
+    # print(FOCUSED_WORKSPACE)
     occupied_workspaces = sorted(occupied_workspaces, key=get_sort_key)
 
-    output = "^fg(" + COLORS["ltest_fg"] + ")" \
-           + "^bg(" + COLORS["lter_bg"]  + ")" \
-           + ""
+    output = "^fg(" + COLORS["ltest_fg"] + ")" + \
+             "^bg(" + COLORS["lter_bg"] + ")" + \
+             ""
     for i, workspace_tuple in enumerate(occupied_workspaces):
         try:
             nxt_tuple = occupied_workspaces[i + 1]
             nxt_flag = nxt_tuple[1]
         except IndexError:
             nxt_flag = None
-        output += decorate_field(workspace_tuple[0], workspace_tuple[1], nxt_flag)
+        output += decorate_field(workspace_tuple[0], workspace_tuple[1],
+                                 nxt_flag)
     output += decorate_field(layout, 'l')
 
     print(output)

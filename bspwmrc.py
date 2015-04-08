@@ -3,9 +3,11 @@
 Main bspwm config file
 """
 import subprocess
-import utils
+
 import panel_settings
+import panels
 import rules
+import utils
 
 
 class BspwmConf():
@@ -75,6 +77,9 @@ class BspwmConf():
         for cmd in self.config_cmds():
             return_code = subprocess.call(cmd)
             assert return_code == 0
+
+        panels.activate_writer()
+        # panels.activate_reader()
 
 CONF = BspwmConf()
 CONF.execute()

@@ -69,3 +69,18 @@ def get_current_desktops():
     for desktop in desktops.split('\n'):
         desktop_names.append(desktop)
     return desktop_names
+
+
+def get_x_resolution():
+    """
+    Finds the x resolution of the panel monitor
+    """
+    xrandr_out = subprocess.check_output(['xrandr']).decode('utf-8')
+    for line in xrandr_out.split('\n'):
+        if '*' in line:
+            primary_monitor_res = line.strip().split()[0]
+            break
+    x_res = int(primary_monitor_res.split('x')[0])
+    print(x_res)
+
+get_x_resolution()

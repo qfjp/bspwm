@@ -12,8 +12,14 @@ mkfifo $PANEL_FIFO
 bspc control --subscribe > "$PANEL_FIFO" &
 xtitle -sf "T%s"         > "$PANEL_FIFO" &
 
+X_RES=$(python ./utils.py)
+export PANEL_WIDTH=$(echo "$X_RES / 2 - 5" | bc)
+export PANEL_OFFSET=$(echo "$X_RES / 2" | bc)
+
 $HOME/.config/bspwm/left_panel.sh &
 $HOME/.config/bspwm/right_panel.sh &
 
-compton -G --shadow-exclude-reg 1590x18+5+0 --config \
+COMP_REG=$(echo "$X_RES - 10" | bc)
+
+compton -G --shadow-exclude-reg ${COMP_REG}x18+5+0 --config \
     ~/.config/compton/compton.conf &

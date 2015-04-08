@@ -56,14 +56,32 @@ def swap_desktops(desktop1, desktop2):
     subprocess.call(["bspc", "desktop", desktop1, "-s", desktop2])
 
 
-def main(target_desktop):
+def move_window_to_desktop(target_desktop):
+    """
+    Moves the active window to the target desktop
+
+    Params:
+      target_desktop (str): A bspwm desktop selector
+    """
+    subprocess.call(['bspc', 'window', '-d', target_desktop])
+    sys.exit()
+
+
+def main(target_desktop_index, move=False):
     """
     The main entry point for the script
     """
-    active_monitor = subprocess.check_output(["bspc", "query", "-m", "focused", "-M"])
-    active_desktop = subprocess.check_output(["bspc", "query", "-d", "focused", "-D"])
+    active_monitor = subprocess.check_output(["bspc", "query", "-m",
+                                              "focused", "-M"])
+    active_desktop = subprocess.check_output(["bspc", "query", "-d",
+                                              "focused", "-D"])
     active_monitor = active_monitor.strip()
     active_desktop = active_desktop.strip()
+
+    target_desktop = utils.get_workspcs()[target_desktop_index - 1]
+
+    if move:
+        move_window_to_desktop(target_desktop)
 
     # Find the target monitor
     target_monitor = utils.get_monitor(target_desktop)
@@ -79,12 +97,20 @@ def main(target_desktop):
 
 
 try:
-    TARGET_DESKTOP = sys.argv[1]
+    TARGET_DESKTOP_INDEX = int(sys.argv[1])
 except IndexError:
     print_usage(PROG_NAME)
-
-if not TARGET_DESKTOP in utils.get_current_desktops():
+except ValueError:
     print_usage(PROG_NAME)
 
-main(TARGET_DESKTOP)
+try:
+    MOVE = sys.argv[2]
+    MOVE = True
+except IndexError:
+    MOVE = False
 
+if TARGET_DESKTOP_INDEX > len(utils.get_workspcs()) or \
+   TARGET_DESKTOP_INDEX < 0:
+    print_usage(PROG_NAME)
+
+main(TARGET_DESKTOP_INDEX, move=MOVE)

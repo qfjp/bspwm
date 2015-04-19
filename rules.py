@@ -8,7 +8,7 @@ import utils
 BSPACE1 = ["Iceweasel", "MainBrowser", "Firefox", "qutebrowser"]
 BSPACE2 = []
 BSPACE3 = ["Deluge"]
-BSPACE4 = ["Chromium", "chromium-browser"]
+BSPACE4 = ["Chromium", "chromium-browser", "Google-chrome-stable"]
 BSPACE5 = ["Steam"]
 BSPACE6 = []
 BSPACE7 = ["Vidalia"]

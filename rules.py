@@ -17,7 +17,7 @@ BSPACE9 = []
 BSPACE0 = []
 
 FLOATS = ["mplayer2", "mpv", "Steam", "Skype", "Tk", "Vlc", "Eclipse",
-          "Java", "GraphDisplay"]
+          "Java", "GraphDisplay", "sun-awt-X11-XFramePeer"]
 
 
 def set_float_rule(class_g):

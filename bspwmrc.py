@@ -4,6 +4,7 @@ Main bspwm config file
 """
 import subprocess
 import sys
+import os
 
 import panel_settings
 import panels
@@ -68,6 +69,21 @@ class BspwmConf():
         cmds.append(panel_height_cmd)
         return cmds
 
+    def run_compton(self):
+        """
+        run the compton command.
+        """
+        x_res = utils.get_x_resolution()
+        comp_reg = x_res - 10
+        height = self.panel_height
+        comp_reg_str = '{}x{}+5+0'.format(comp_reg, height)
+        comp_cfg_str = '{}/.config/compton/compton.conf'\
+                       .format(os.environ['HOME'])
+        compton_cmd = ['compton', '-G', '--shadow-exclude-reg',
+                       comp_reg_str, '--config', comp_cfg_str]
+        ret_val = subprocess.call(compton_cmd)
+        assert ret_val == 0
+
     def execute(self):
         """
         Run the configuration
@@ -84,6 +100,7 @@ class BspwmConf():
         panels.activate_left_panel()
         panels.activate_right_panel()
         rules.reset_rules()
+        self.run_compton()
 
 try:
     FIRST_ARG = sys.argv[1]

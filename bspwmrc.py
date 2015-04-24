@@ -2,9 +2,10 @@
 """
 Main bspwm config file
 """
+import os
 import subprocess
 import sys
-import os
+import threading
 
 import panel_settings
 import panels
@@ -20,6 +21,7 @@ class BspwmConf():
 
     def __init__(self):
         self.panel_height = panel_settings.HEIGHT
+        self.icon_height = panel_settings.ICON_HEIGHT
         self.panel_fifo = panel_settings.FIFO
 
         self.settings = {}
@@ -69,7 +71,7 @@ class BspwmConf():
         cmds.append(panel_height_cmd)
         return cmds
 
-    def run_compton(self):
+    def compton_target(self):
         """
         run the compton command.
         """
@@ -83,6 +85,34 @@ class BspwmConf():
                        comp_reg_str, '--config', comp_cfg_str]
         ret_val = subprocess.call(compton_cmd)
         assert ret_val == 0
+
+    def stalonetray_target(self):
+        """
+        Run stalonetray
+        """
+        height = self.icon_height
+        x_res = utils.get_x_resolution()
+        geo_x = int(x_res * .84)
+        geo_string = '1x1+{}+1'.format(geo_x)
+        tray_cmd = ['stalonetray', '-i', height, '--kludges',
+                    'force_icons_size', '--geometry', geo_string,
+                    '-bg', '#555555', '--grow-gravity', 'E']
+        ret_val = subprocess.call(tray_cmd)
+        assert ret_val == 0
+
+    def run_compton(self):
+        """
+        Run the compton thread.
+        """
+        thread = threading.Thread(target=self.compton_target)
+        thread.start()
+
+    def run_stalonetray(self):
+        """
+        Run the stalonetray thread.
+        """
+        thread = threading.Thread(target=self.stalonetray_target)
+        thread.start()
 
     def execute(self):
         """
@@ -101,6 +131,7 @@ class BspwmConf():
         panels.activate_right_panel()
         rules.reset_rules()
         self.run_compton()
+        self.run_stalonetray()
 
 try:
     FIRST_ARG = sys.argv[1]

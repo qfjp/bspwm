@@ -6,6 +6,7 @@ import os
 import subprocess
 
 HEIGHT = '18'
+ICON_HEIGHT = '16'
 FIFO = '/tmp/panel-fifo'
 BG_COLOR = '#303030'
 FONT = 'Inconsolata for Powerline:Bold:size=10'
@@ -31,6 +32,8 @@ def set_height():
     x_dpi = int(dpi_line.split('x')[0])
     y_dpi = int(dpi_line.split('x')[1])
     global HEIGHT
+    global ICON_HEIGHT
     HEIGHT = '{}'.format(int(.1875 * y_dpi))
+    ICON_HEIGHT = '{}'.format(int(.1667 * y_dpi))
 
 set_height()

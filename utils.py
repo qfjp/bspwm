@@ -10,7 +10,7 @@ def get_workspcs():
     Returns a list of workspace names
     """
     return ["1 fire", "2 scien", "3 delg", "4 chrome", "5 game",
-            "6 btc", "7 sec", "8 phone", "9 blank", "10 blank"]
+            "6 btc", "7 sec", "8 phone", "9 blank", "10 kpass"]
 
 
 def get_monitors():

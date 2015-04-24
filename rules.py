@@ -8,13 +8,14 @@ import utils
 BSPACE1 = ["Iceweasel", "MainBrowser", "Firefox", "qutebrowser"]
 BSPACE2 = []
 BSPACE3 = ["Deluge"]
-BSPACE4 = ["Chromium", "chromium-browser", "Google-chrome-stable"]
+BSPACE4 = ["Chromium", "chromium-browser", "Google-chrome-stable",
+           "Google-chrome-unstable"]
 BSPACE5 = ["Steam"]
 BSPACE6 = []
 BSPACE7 = ["Vidalia"]
 BSPACE8 = ["Skype"]
 BSPACE9 = []
-BSPACE0 = []
+BSPACE0 = ["KeePass2"]
 
 FLOATS = ["mplayer2", "mpv", "Steam", "Skype", "Tk", "Vlc", "Eclipse",
           "Java", "GraphDisplay", "sun-awt-X11-XFramePeer"]

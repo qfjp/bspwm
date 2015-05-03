@@ -92,7 +92,7 @@ class BspwmConf():
         """
         height = self.icon_height
         x_res = utils.get_x_resolution()
-        geo_x = int(x_res * .84)
+        geo_x = int(x_res * .88)
         geo_string = '1x1+{}+1'.format(geo_x)
         tray_cmd = ['stalonetray', '-i', height, '--kludges',
                     'force_icons_size', '--geometry', geo_string,

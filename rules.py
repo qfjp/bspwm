@@ -5,19 +5,20 @@ Set bspwm rules (e.g. which window classes should float)
 import subprocess
 import utils
 
-BSPACE1 = ["Iceweasel", "MainBrowser", "Firefox", "qutebrowser"]
+BSPACE1 = ['Iceweasel', 'MainBrowser', 'Firefox', 'qutebrowser']
 BSPACE2 = []
-BSPACE3 = ["Deluge"]
-BSPACE4 = ["Chromium", "chromium-browser", "Google-chrome-stable"]
-BSPACE5 = ["Steam"]
+BSPACE3 = ['Deluge']
+BSPACE4 = ['Chromium', 'chromium-browser', 'Google-chrome-stable',
+           'Google-chrome-unstable', 'Opera']
+BSPACE5 = ['Steam']
 BSPACE6 = []
-BSPACE7 = ["Vidalia"]
-BSPACE8 = ["Skype"]
+BSPACE7 = ['Vidalia']
+BSPACE8 = ['Skype']
 BSPACE9 = []
-BSPACE0 = []
+BSPACE0 = ['KeePass2']
 
-FLOATS = ["mplayer2", "mpv", "Steam", "Skype", "Tk", "Vlc", "Eclipse",
-          "Java", "GraphDisplay", "sun-awt-X11-XFramePeer"]
+FLOATS = ['mplayer2', 'mpv', 'Steam', 'Skype', 'Tk', 'Vlc', 'Eclipse',
+          'Java', 'GraphDisplay', 'sun-awt-X11-XFramePeer']
 
 
 def set_float_rule(class_g):
@@ -27,8 +28,8 @@ def set_float_rule(class_g):
     Params:
       class_g (str): A window class (can find from 'xprop')
     """
-    subprocess.call(["bspc", "rule", "-r", class_g])
-    subprocess.call(["bspc", "rule", "-a", class_g, "floating=on"])
+    subprocess.call(['bspc', 'rule', '-r', class_g])
+    subprocess.call(['bspc', 'rule', '-a', class_g, 'floating=on'])
 
 
 ##
@@ -47,15 +48,15 @@ def set_move_rule(lst, desktop):
     """
     for class_g in lst:
         # remove the old rules
-        subprocess.call(["bspc", "rule", "-r", class_g])
+        subprocess.call(['bspc', 'rule', '-r', class_g])
 
         # Find the index of the desktop to move to (+1 -> python is 0 indexed
         #                                           and bspc is 1 indexed)
         d_index = utils.get_current_desktops().index(desktop) + 1
 
         # Add the new rules
-        subprocess.call(["bspc", "rule", "-a", class_g,
-                         "desktop=^{}".format(d_index)])
+        subprocess.call(['bspc', 'rule', '-a', class_g,
+                         'desktop=^{}'.format(d_index)])
         if desktop in FLOATS:
             set_float_rule(class_g)
 

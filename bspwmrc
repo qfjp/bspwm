@@ -3,9 +3,9 @@
 
 python $HOME/.config/bspwm/bspwmrc.py 2> /tmp/bspwm_log &
 
-X_RES=$(python $HOME/.config/bspwm/utils.py)
-
-COMP_REG=$(echo "$X_RES - 10" | bc)
-
-compton -G --shadow-exclude-reg ${COMP_REG}x18+5+0 --config \
-    ~/.config/compton/compton.conf &
+#X_RES=$(python $HOME/.config/bspwm/utils.py)
+#
+#COMP_REG=$(echo "$X_RES - 10" | bc)
+#
+#compton -G --shadow-exclude-reg ${COMP_REG}x18+5+0 --config \
+#    ~/.config/compton/compton.conf &

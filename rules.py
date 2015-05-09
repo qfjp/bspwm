@@ -14,7 +14,6 @@ BSPACE5 = ['Steam']
 BSPACE6 = []
 BSPACE7 = ['Vidalia']
 BSPACE8 = ['Skype']
-BSPACE9 = []
 BSPACE0 = ['KeePass2']
 
 FLOATS = ['mplayer2', 'mpv', 'Steam', 'Skype', 'Tk', 'Vlc', 'Eclipse',

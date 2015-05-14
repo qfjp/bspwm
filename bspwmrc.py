@@ -96,7 +96,7 @@ class BspwmConf():
         geo_string = '1x1+{}+1'.format(geo_x)
         tray_cmd = ['stalonetray', '-i', height, '--kludges',
                     'force_icons_size', '--geometry', geo_string,
-                    '-bg', '#555555', '--grow-gravity', 'E']
+                    '-bg', '#121212', '--grow-gravity', 'E']
         ret_val = subprocess.call(tray_cmd)
         assert ret_val == 0
 
